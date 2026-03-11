@@ -1,0 +1,154 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#e8ddb8;
+color:#2d2d2d;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:60px 20px;
+}
+
+/* NAVBAR */
+
+.navbar{
+background:#d9cfa8;
+border-bottom:2px solid #d84315;
+}
+
+.nav-inner{
+max-width:1100px;
+margin:auto;
+padding:6px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo img{
+height:120px;
+width:auto;
+display:block;
+}
+
+nav a{
+margin-left:30px;
+text-decoration:none;
+color:#bf360c;
+font-weight:600;
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+padding:120px 20px 80px;
+}
+
+.hero h1{
+font-size:48px;
+color:#bf360c;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:18px;
+margin-bottom:40px;
+}
+
+/* BUTTON */
+
+.btn-primary{
+background:#d84315;
+color:white;
+padding:14px 30px;
+text-decoration:none;
+border-radius:6px;
+font-weight:600;
+}
+
+.btn-primary:hover{
+background:#bf360c;
+}
+
+/* SECTIONS */
+
+.section h2{
+text-align:center;
+margin-bottom:50px;
+font-size:36px;
+color:#bf360c;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;
+}
+
+/* CARDS */
+
+.card{
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.card.light{
+background:#f7f3de;
+}
+
+.card h3{
+color:#d84315;
+margin-bottom:10px;
+}
+
+/* ACCENT SECTION */
+
+.accent{
+background:#d84315;
+color:white;
+}
+
+.accent h2{
+color:white;
+}
+
+/* CONTACT */
+
+.contact{
+text-align:center;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:30px;
+border-top:1px solid #d84315;
+}
+
+.contact-email{
+margin:20px 0;
+font-size:18px;
+}
+
+.contact .btn-primary{
+margin-top:10px;
+display:inline-block;
+}
+
+.card.light{
+background:#f7f3de;
+color:#2d2d2d;
+}
