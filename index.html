@@ -3,248 +3,1054 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload — Upload Your Business Online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & BASE ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
 
-<title>Upload — Upload Your Business</title>
+:root {
+  --beige:       #e8ddb8;
+  --beige-light: #f4ead1;
+  --beige-mid:   #f7f3de;
+  --orange:      #d84315;
+  --orange-dark: #bf360c;
+  --orange-glow: rgba(216,67,21,0.45);
+  --text-dark:   #2d2d2d;
+  --text-mid:    #444;
+  --white:       #ffffff;
+  --radius:      12px;
+  --shadow-card: 0 12px 32px rgba(0,0,0,0.09);
+  --transition:  all .3s cubic-bezier(.4,0,.2,1);
+}
 
-<link rel="stylesheet" href="style.css">
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--beige);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--beige); }
+::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
 
+/* ── NAVBAR ── */
+.navbar {
+  position: sticky; top: 0; z-index: 1000;
+  background: rgba(232,221,184,0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 2px solid var(--orange);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  transition: var(--transition);
+}
+.nav-inner {
+  max-width: 1200px; margin: auto;
+  padding: 0 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 72px;
+}
+.logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo img { height: 56px; transition: transform .4s ease; }
+.logo img:hover { transform: translateY(-3px) scale(1.04); }
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 900;
+  color: var(--orange-dark);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.logo-text span { display: block; font-size: 11px; font-family: 'Poppins', sans-serif; font-weight: 500; color: var(--text-mid); letter-spacing: 1.5px; text-transform: uppercase; }
+
+.nav-links { display: flex; align-items: center; gap: 8px; }
+.nav-links a {
+  text-decoration: none; color: var(--orange-dark); font-weight: 600; font-size: 14px;
+  padding: 8px 16px; border-radius: 6px;
+  position: relative; transition: var(--transition);
+  letter-spacing: 0.3px;
+}
+.nav-links a::after {
+  content: ""; position: absolute; left: 16px; bottom: 4px;
+  width: 0; height: 2px; background: var(--orange);
+  transition: width .3s ease;
+}
+.nav-links a:hover { color: var(--orange); background: rgba(216,67,21,0.07); }
+.nav-links a:hover::after { width: calc(100% - 32px); }
+.nav-cta {
+  background: var(--orange) !important; color: white !important;
+  border-radius: 8px !important; padding: 10px 22px !important;
+  box-shadow: 0 4px 14px var(--orange-glow);
+  font-weight: 600 !important;
+}
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { background: var(--orange-dark) !important; transform: translateY(-2px); box-shadow: 0 8px 22px var(--orange-glow) !important; }
+
+/* hamburger */
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
+.hamburger span { width: 24px; height: 2px; background: var(--orange-dark); border-radius: 2px; transition: var(--transition); display: block; }
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+/* mobile menu */
+.mobile-menu {
+  display: none; flex-direction: column; gap: 4px;
+  background: var(--beige-light); padding: 16px 20px;
+  border-bottom: 2px solid var(--orange);
+}
+.mobile-menu a {
+  text-decoration: none; color: var(--orange-dark); font-weight: 600;
+  padding: 10px 12px; border-radius: 6px; font-size: 15px;
+  transition: background .2s;
+}
+.mobile-menu a:hover { background: rgba(216,67,21,0.08); }
+.mobile-menu.open { display: flex; }
+
+/* ── HERO ── */
+.hero {
+  position: relative; text-align: center;
+  padding: 110px 20px 90px; overflow: hidden; min-height: 480px;
+}
+.hero-bg {
+  position: absolute; top:0; left:0; width:100%; height:100%;
+  background-image: url("assets/upload-bg.png");
+  background-repeat: no-repeat; background-position: center; background-size: 700px;
+  opacity: 0.07; pointer-events: none;
+}
+.hero::after {
+  content: "";
+  position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%);
+  width: 700px; height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.25) 30%, rgba(255,255,255,0.08) 55%, rgba(255,255,255,0) 75%);
+  pointer-events: none; z-index: 1;
+  animation: glowPulse 6s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%   { opacity:.6; transform:translate(-50%,-50%) scale(1); }
+  50%  { opacity:.9; transform:translate(-50%,-50%) scale(1.05); }
+  100% { opacity:.6; transform:translate(-50%,-50%) scale(1); }
+}
+.hero-illustration {
+  position: absolute; top: 55%; left: 50%; transform: translate(-50%,-50%);
+  width: 1400px; max-width: none; opacity: 0.65; pointer-events: none; z-index: 1;
+  animation: floatHero 12s ease-in-out infinite;
+}
+@keyframes floatHero {
+  0%   { transform:translate(-50%,-52%); }
+  50%  { transform:translate(-50%,-48%); }
+  100% { transform:translate(-50%,-52%); }
+}
+.hero-illustration img {
+  width: 100%;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 30%, rgba(0,0,0,0.6) 55%, rgba(0,0,0,0) 85%);
+}
+.hero-inner {
+  position: relative; z-index: 2;
+  animation: heroFloat 8s ease-in-out infinite;
+}
+@keyframes heroFloat {
+  0%   { transform:translateY(0px); }
+  50%  { transform:translateY(-6px); }
+  100% { transform:translateY(0px); }
+}
+
+/* badge above title */
+.hero-badge {
+  display: inline-block;
+  background: rgba(216,67,21,0.12);
+  border: 1.5px solid rgba(216,67,21,0.3);
+  color: var(--orange-dark); font-size: 12px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 6px 18px; border-radius: 20px;
+  margin-bottom: 20px;
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 62px; font-weight: 900; color: var(--orange-dark);
+  letter-spacing: -1px; line-height: 1.08;
+  position: relative; display: inline-block;
+  animation: fadeUp 1s ease .15s both;
+}
+.hero-title::after {
+  content: ""; position: absolute; left: 50%; bottom: -10px;
+  width: 0; height: 3px; background: var(--orange);
+  transform: translateX(-50%);
+  animation: lineGrow 1.5s ease .8s forwards;
+}
+@keyframes lineGrow { from{width:0;} to{width:140px;} }
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.hero-sub {
+  font-size: 19px; color: var(--text-mid);
+  max-width: 640px; margin: 28px auto 36px; line-height: 1.65;
+  animation: fadeUp 1s ease .3s both;
+}
+.hero-actions {
+  display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;
+  animation: fadeUp 1s ease .45s both;
+}
+.btn-primary {
+  background: var(--orange); color: white;
+  padding: 16px 38px; text-decoration: none; border-radius: 9px;
+  font-weight: 700; font-size: 15px; display: inline-block;
+  box-shadow: 0 6px 18px var(--orange-glow);
+  transition: var(--transition);
+  animation: pulse 4s infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow:0 6px 15px rgba(216,67,21,0.35); }
+  50%  { box-shadow:0 12px 30px rgba(216,67,21,0.55); }
+  100% { box-shadow:0 6px 15px rgba(216,67,21,0.35); }
+}
+.btn-primary:hover { background: var(--orange-dark); transform: translateY(-3px); box-shadow: 0 12px 28px rgba(216,67,21,0.55); }
+.btn-outline {
+  border: 2px solid var(--orange); color: var(--orange-dark);
+  padding: 15px 34px; border-radius: 9px; font-weight: 700; font-size: 15px;
+  text-decoration: none; display: inline-block; transition: var(--transition);
+}
+.btn-outline:hover { background: rgba(216,67,21,0.08); transform: translateY(-3px); }
+
+/* hero stats */
+.hero-stats {
+  display: flex; justify-content: center; gap: 50px; flex-wrap: wrap;
+  margin-top: 60px;
+  animation: fadeUp 1s ease .6s both;
+}
+.stat { text-align: center; }
+.stat-num { font-family:'Playfair Display',serif; font-size:38px; font-weight:900; color:var(--orange-dark); line-height:1; }
+.stat-lbl { font-size:12px; font-weight:500; color:var(--text-mid); letter-spacing:1px; text-transform:uppercase; margin-top:4px; }
+
+/* upload particles */
+.upload-particles span {
+  position: absolute; width: 0; height: 0;
+  border-left: 6px solid transparent; border-right: 6px solid transparent;
+  border-bottom: 12px solid var(--orange);
+  opacity: 0.25; animation: floatArrow 8s linear infinite;
+}
+.upload-particles span:nth-child(1){left:15%;animation-delay:0s;}
+.upload-particles span:nth-child(2){left:30%;animation-delay:2s;}
+.upload-particles span:nth-child(3){left:45%;animation-delay:4s;}
+.upload-particles span:nth-child(4){left:60%;animation-delay:1s;}
+.upload-particles span:nth-child(5){left:80%;animation-delay:3s;}
+@keyframes floatArrow {
+  0%   { transform:translateY(80px) scale(.8); opacity:.25; }
+  20%  { opacity:.50; }
+  100% { transform:translateY(-220px) scale(1); opacity:0; }
+}
+
+/* ── SECTION SHARED ── */
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-header .eyebrow {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 12px;
+}
+.section-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px; font-weight: 900; color: var(--orange-dark); line-height: 1.15;
+}
+.section-header p { font-size: 17px; color: var(--text-mid); max-width: 580px; margin: 14px auto 0; line-height: 1.65; }
+
+/* ── TRUST BAR ── */
+.trust-bar {
+  background: var(--orange-dark);
+  padding: 18px 20px;
+  overflow: hidden;
+}
+.trust-bar-inner {
+  max-width: 1200px; margin: auto;
+  display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 10px;
+  color: rgba(255,255,255,0.92); font-size: 13px; font-weight: 500; letter-spacing: 0.4px;
+}
+.trust-item span { font-size: 20px; }
+
+/* ── SERVICES ── */
+.services-section {
+  background: var(--beige-mid);
+  padding: 100px 20px;
+}
+.container { max-width: 1200px; margin: auto; padding: 0 20px; }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 32px;
+}
+.service-card {
+  background: white; border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--shadow-card);
+  transition: var(--transition); cursor: pointer;
+  display: flex; flex-direction: column;
+  border: 1.5px solid transparent;
+}
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 50px rgba(0,0,0,0.13);
+  border-color: rgba(216,67,21,0.2);
+}
+.service-img-wrap { position: relative; overflow: hidden; }
+.service-img-wrap img { width:100%; height:210px; object-fit:cover; transition: transform .5s ease; display: block; }
+.service-card:hover .service-img-wrap img { transform: scale(1.05); }
+.service-badge {
+  position: absolute; top: 14px; left: 14px;
+  background: var(--orange); color: white;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 4px;
+}
+.service-body { padding: 26px 28px 28px; flex: 1; display: flex; flex-direction: column; }
+.service-icon { font-size: 32px; margin-bottom: 12px; }
+.service-body h3 { font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:var(--orange-dark); margin-bottom:10px; }
+.service-body .short { font-size:15px; color:var(--text-mid); line-height:1.65; margin-bottom:18px; }
+
+.service-features { list-style: none; margin: 0; flex:1; }
+.service-features li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-size:14px; color:var(--text-dark);
+}
+.service-features li:last-child { border-bottom: none; }
+.service-features li .tick { color: var(--orange); font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+
+.service-footer {
+  margin-top: 24px; padding-top: 18px;
+  border-top: 1.5px solid rgba(216,67,21,0.15);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.service-footer .price-tag { font-size: 13px; color: var(--text-mid); font-weight: 500; }
+.service-link {
+  color: var(--orange); font-weight: 700; font-size: 13px;
+  text-decoration: none; display: flex; align-items: center; gap: 5px;
+  transition: var(--transition);
+}
+.service-link:hover { gap: 9px; }
+
+/* ── WHY US ── */
+.why-section {
+  background: var(--beige);
+  padding: 100px 20px;
+}
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+}
+.why-left .big-number {
+  font-family:'Playfair Display',serif; font-size:120px; font-weight:900;
+  color: rgba(216,67,21,0.08); line-height:1; margin-bottom:-30px;
+  user-select:none;
+}
+.why-left h2 { font-family:'Playfair Display',serif; font-size:40px; font-weight:900; color:var(--orange-dark); line-height:1.2; margin-bottom:18px; }
+.why-left p { font-size:16px; color:var(--text-mid); line-height:1.75; margin-bottom:28px; }
+
+.why-pillars { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.pillar {
+  background: var(--white); border-radius:10px; padding:20px 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+  border-left: 3px solid var(--orange);
+  transition: var(--transition);
+}
+.pillar:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.1); }
+.pillar-icon { font-size:26px; margin-bottom:8px; }
+.pillar h4 { font-size:15px; font-weight:700; color:var(--orange-dark); margin-bottom:5px; }
+.pillar p { font-size:13px; color:var(--text-mid); line-height:1.5; }
+
+/* ── PROCESS ── */
+.process-section {
+  background: var(--orange-dark);
+  padding: 100px 20px;
+  color: white; position: relative; overflow: hidden;
+}
+.process-section::before {
+  content:""; position:absolute; top:-80px; right:-80px;
+  width:300px; height:300px;
+  border-radius:50%; background:rgba(255,255,255,0.03);
+  pointer-events:none;
+}
+.process-section .section-header h2 { color:white; }
+.process-section .section-header .eyebrow { color:rgba(255,255,255,0.7); }
+.process-section .section-header p { color:rgba(255,255,255,0.75); }
+
+.process-grid {
+  display: grid; grid-template-columns: repeat(auto-fit,minmax(230px,1fr)); gap:24px;
+  position: relative;
+}
+.process-grid::before {
+  content:""; position:absolute; top:50px; left:0; right:0; height:2px;
+  background:rgba(255,255,255,0.15);
+}
+.process-step {
+  background: rgba(255,255,255,0.07); border-radius:var(--radius);
+  padding:32px 24px; text-align:center;
+  border:1px solid rgba(255,255,255,0.1);
+  transition: var(--transition); position:relative; z-index:1;
+}
+.process-step:hover { background:rgba(255,255,255,0.12); transform:translateY(-6px); }
+.step-num {
+  width:52px; height:52px; border-radius:50%;
+  background:white; color:var(--orange-dark);
+  font-family:'Playfair Display',serif; font-size:22px; font-weight:900;
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 18px; box-shadow:0 6px 18px rgba(0,0,0,0.15);
+}
+.step-icon { font-size:28px; margin-bottom:12px; }
+.process-step h3 { font-size:17px; font-weight:700; color:white; margin-bottom:10px; }
+.process-step p { font-size:14px; color:rgba(255,255,255,0.75); line-height:1.65; }
+
+/* ── PACKAGES ── */
+.packages-section { background:var(--beige-mid); padding:100px 20px; }
+.packages-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:28px; }
+.pkg-card {
+  background:white; border-radius:var(--radius); padding:36px 32px;
+  box-shadow:var(--shadow-card); border:2px solid transparent;
+  transition:var(--transition); position:relative; overflow:hidden;
+}
+.pkg-card.featured {
+  border-color:var(--orange);
+  background:linear-gradient(135deg, white 0%, rgba(216,67,21,0.04) 100%);
+}
+.pkg-badge {
+  position:absolute; top:16px; right:0;
+  background:var(--orange); color:white; font-size:11px; font-weight:700;
+  letter-spacing:1px; text-transform:uppercase; padding:5px 16px;
+  border-radius:4px 0 0 4px;
+}
+.pkg-card:hover { transform:translateY(-8px); box-shadow:0 24px 50px rgba(0,0,0,0.12); border-color:var(--orange); }
+.pkg-icon { font-size:40px; margin-bottom:14px; }
+.pkg-card h3 { font-family:'Playfair Display',serif; font-size:26px; font-weight:900; color:var(--orange-dark); margin-bottom:8px; }
+.pkg-desc { font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:24px; }
+.pkg-list { list-style:none; margin-bottom:28px; }
+.pkg-list li { display:flex; align-items:flex-start; gap:10px; padding:7px 0; font-size:14px; border-bottom:1px solid rgba(0,0,0,0.05); }
+.pkg-list li:last-child{border:none;}
+.pkg-list .tick{color:var(--orange); flex-shrink:0; margin-top:1px;}
+.pkg-cta {
+  display:block; text-align:center; padding:14px; border-radius:8px;
+  font-weight:700; font-size:15px; text-decoration:none;
+  background:var(--orange); color:white;
+  box-shadow:0 6px 16px var(--orange-glow); transition:var(--transition);
+}
+.pkg-cta:hover{background:var(--orange-dark); transform:translateY(-2px);}
+.pkg-card:not(.featured) .pkg-cta {
+  background:transparent; color:var(--orange); border:2px solid var(--orange); box-shadow:none;
+}
+.pkg-card:not(.featured) .pkg-cta:hover{background:rgba(216,67,21,0.08);}
+
+/* ── FAQ ── */
+.faq-section { background:var(--beige); padding:100px 20px; }
+.faq-wrap { max-width:740px; margin:0 auto; }
+.faq-item {
+  background:white; border-radius:10px; margin-bottom:14px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.06); overflow:hidden;
+  border:1px solid rgba(216,67,21,0.1);
+}
+.faq-q {
+  width:100%; background:none; border:none; cursor:pointer;
+  padding:20px 24px; display:flex; align-items:center; justify-content:space-between;
+  font-family:'Poppins',sans-serif; font-size:15px; font-weight:600; color:var(--text-dark);
+  text-align:left; gap:12px;
+}
+.faq-arrow {
+  width:28px; height:28px; border-radius:50%; background:rgba(216,67,21,0.1);
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; color:var(--orange); flex-shrink:0; transition:var(--transition);
+}
+.faq-item.open .faq-arrow { transform:rotate(180deg); background:var(--orange); color:white; }
+.faq-a {
+  max-height:0; overflow:hidden; transition:max-height .4s ease, padding .3s ease;
+  font-size:14px; color:var(--text-mid); line-height:1.75; padding:0 24px;
+}
+.faq-item.open .faq-a { max-height:300px; padding:0 24px 20px; }
+
+/* ── CTA / CONTACT ── */
+.cta-section {
+  position: relative; overflow:hidden;
+  background: linear-gradient(120deg, var(--beige), var(--beige-light), var(--beige));
+  background-size:200% 200%;
+  animation: gradientFlow 10s ease infinite;
+  padding:110px 20px; text-align:center;
+}
+@keyframes gradientFlow {
+  0%  {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+.cta-particles span {
+  position:absolute; width:0; height:0;
+  border-left:7px solid transparent; border-right:7px solid transparent;
+  border-bottom:14px solid var(--orange); opacity:.25;
+  animation:floatUpload 8s linear infinite;
+}
+.cta-particles span:nth-child(1){left:10%;animation-delay:0s;}
+.cta-particles span:nth-child(2){left:25%;animation-delay:2s;}
+.cta-particles span:nth-child(3){left:50%;animation-delay:4s;}
+.cta-particles span:nth-child(4){left:70%;animation-delay:1s;}
+.cta-particles span:nth-child(5){left:85%;animation-delay:3s;}
+@keyframes floatUpload {
+  0%  {transform:translateY(120px) scale(.8);opacity:0;}
+  20% {opacity:.5;}
+  100%{transform:translateY(-220px) scale(1);opacity:0;}
+}
+.cta-inner { max-width:860px; margin:auto; position:relative; z-index:2; }
+.cta-section h2 {
+  font-family:'Playfair Display',serif; font-size:48px; font-weight:900;
+  color:var(--orange-dark); margin-bottom:18px; line-height:1.15;
+}
+.cta-sub { font-size:18px; margin-bottom:40px; color:var(--text-mid); line-height:1.6; }
+.cta-benefits {
+  display:flex; justify-content:center; gap:18px; flex-wrap:wrap; margin-bottom:44px;
+}
+.benefit {
+  background:white; padding:14px 22px; border-radius:10px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08); font-weight:600; font-size:14px;
+  border-left:3px solid var(--orange);
+}
+.cta-buttons { display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; margin-bottom:40px; }
+.cta-button {
+  display:inline-block; background:var(--orange); color:white;
+  padding:18px 44px; border-radius:10px; font-weight:700; font-size:17px;
+  text-decoration:none; box-shadow:0 10px 30px var(--orange-glow);
+  transition:var(--transition); animation:pulseCta 3s infinite;
+}
+@keyframes pulseCta {
+  0%  {transform:scale(1);}
+  50% {transform:scale(1.03);}
+  100%{transform:scale(1);}
+}
+.cta-button:hover { transform:translateY(-5px) scale(1.05); box-shadow:0 18px 44px rgba(216,67,21,0.65); }
+.cta-secondary {
+  display:inline-block; border:2px solid var(--orange); color:var(--orange-dark);
+  padding:17px 36px; border-radius:10px; font-weight:700; font-size:16px;
+  text-decoration:none; transition:var(--transition);
+}
+.cta-secondary:hover { background:rgba(216,67,21,0.08); transform:translateY(-3px); }
+.cta-contact { margin-top:30px; color:var(--text-mid); font-size:15px; }
+.cta-contact p { margin-bottom:6px; display:flex; align-items:center; justify-content:center; gap:8px; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--orange-dark); color:rgba(255,255,255,0.8);
+  padding:60px 20px 30px;
+}
+.footer-grid {
+  max-width:1200px; margin:auto;
+  display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px;
+  padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,0.15);
+}
+.footer-brand .logo-text { color:white; margin-bottom:12px; }
+.footer-brand .logo-text span { color:rgba(255,255,255,0.6); }
+.footer-brand p { font-size:14px; color:rgba(255,255,255,0.6); line-height:1.75; max-width:300px; margin-top:8px; }
+.footer-col h4 { font-size:14px; font-weight:700; color:white; margin-bottom:18px; letter-spacing:0.5px; text-transform:uppercase; }
+.footer-col a, .footer-col p {
+  display:block; color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px;
+  margin-bottom:10px; transition:color .2s;
+}
+.footer-col a:hover{color:white;}
+.footer-bottom {
+  max-width:1200px; margin:24px auto 0;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+  font-size:13px; color:rgba(255,255,255,0.5);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .why-grid{grid-template-columns:1fr;}
+  .why-left .big-number{font-size:80px;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .hero-title{font-size:46px;}
+}
+@media(max-width:640px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .hero-title{font-size:36px;}
+  .cta-section h2{font-size:34px;}
+  .footer-grid{grid-template-columns:1fr;}
+  .process-grid::before{display:none;}
+  .hero-stats{gap:28px;}
+  .stat-num{font-size:30px;}
+  .why-pillars{grid-template-columns:1fr;}
+}
+</style>
 </head>
-
 <body>
 
+<!-- ── NAVBAR ── -->
 <header class="navbar">
-
-<div class="container nav-inner">
-
-<div class="logo">
-<img src="assets/logo.png">
-</div>
-
-<nav>
-<a href="#services">Services</a>
-<a href="#process">Process</a>
-<a href="#contact">Contact</a>
-</nav>
-
-</div>
-
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <img src="assets/logo.png" alt="Upload">
+      <div class="logo-text">Upload<span>Digital Solutions</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#why">Why Us</a>
+      <a href="#process">Process</a>
+      <a href="#packages">Packages</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact" class="nav-cta">Get Started →</a>
+    </nav>
+    <button class="hamburger" id="ham" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="#services" onclick="closeMenu()">Services</a>
+    <a href="#why" onclick="closeMenu()">Why Us</a>
+    <a href="#process" onclick="closeMenu()">Process</a>
+    <a href="#packages" onclick="closeMenu()">Packages</a>
+    <a href="#faq" onclick="closeMenu()">FAQ</a>
+    <a href="#contact" onclick="closeMenu()" class="nav-cta" style="margin-top:6px;text-align:center;border-radius:8px;background:var(--orange);color:white;padding:11px 16px;">Get Started →</a>
+  </nav>
 </header>
 
-
+<!-- ── HERO ── -->
 <section class="hero">
+  <div class="hero-bg"></div>
+  <div class="upload-particles">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="hero-illustration">
+    <img src="assets/hero-bg.png" alt="">
+  </div>
 
-<div class="hero-bg"></div>
-<div class="upload-particles">
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-</div>
-<div class="hero-illustration">
-<img src="assets/hero-bg.png" alt="">
-</div>
-
-<div class="container hero-inner">
-
-<h1 class="hero-title">Upload Your Business</h1>
-
-<p class="hero-sub">
-We help local businesses get online with beautiful websites and digital systems.
-</p>
-
-<a href="#contact" class="btn-primary hero-btn">
-Get Started
-</a>
-
-</div>
-
+  <div class="container hero-inner">
+    <div class="hero-badge">🚀 Launching Local Businesses Online</div>
+    <h1 class="hero-title">Upload Your Business<br>to the Digital World</h1>
+    <p class="hero-sub">
+      From a beautiful website to full digital marketing and custom software — we help local businesses establish, grow, and thrive online.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Start Your Journey →</a>
+      <a href="#services" class="btn-outline">Explore Services</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">48h</div>
+        <div class="stat-lbl">Website Ready</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3×</div>
+        <div class="stat-lbl">More Visibility</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-lbl">Custom Built</div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- ── TRUST BAR ── -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item"><span>✓</span> No Hidden Fees</div>
+    <div class="trust-item"><span>✓</span> Fast Turnaround</div>
+    <div class="trust-item"><span>✓</span> Mobile-First Design</div>
+    <div class="trust-item"><span>✓</span> Ongoing Support</div>
+    <div class="trust-item"><span>✓</span> Made for Local Businesses</div>
+  </div>
+</div>
 
+<!-- ── SERVICES ── -->
 <section id="services" class="services-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">What We Do</div>
+      <h2>Everything Your Business Needs Online</h2>
+      <p>Three core pillars — website, data, and marketing — to take your business from offline to unstoppable.</p>
+    </div>
 
-<div class="container">
+    <div class="services-grid">
 
-<h2>Our Services</h2>
-<p class="services-intro">
-We help local businesses move online with powerful digital tools.
-</p>
+      <!-- Website Design -->
+      <div class="service-card">
+        <div class="service-img-wrap">
+          <img src="assets/web_design.png" alt="Website Design">
+          <div class="service-badge">Web</div>
+        </div>
+        <div class="service-body">
+          <div class="service-icon">🖥️</div>
+          <h3>Website Design</h3>
+          <p class="short">A fast, modern, professionally designed website that makes customers trust your business and take action — built from scratch to match your brand.</p>
+          <ul class="service-features">
+            <li><span class="tick">▸</span> <span>Custom-designed business homepage with your branding, colors and story</span></li>
+            <li><span class="tick">▸</span> <span>Services / product pages with clear descriptions and calls to action</span></li>
+            <li><span class="tick">▸</span> <span>Contact forms, WhatsApp integration & Google Maps embed</span></li>
+            <li><span class="tick">▸</span> <span>Fully mobile-responsive — looks great on phones, tablets & desktops</span></li>
+            <li><span class="tick">▸</span> <span>SEO-ready structure so customers can find you on Google</span></li>
+            <li><span class="tick">▸</span> <span>Fast loading speeds for better user experience and search rankings</span></li>
+            <li><span class="tick">▸</span> <span>Photo gallery, testimonials section, and trust-building elements</span></li>
+          </ul>
+          <div class="service-footer">
+            <span class="price-tag">Ideal for all local businesses</span>
+            <a href="#contact" class="service-link">Get a Quote →</a>
+          </div>
+        </div>
+      </div>
 
-<div class="services-grid">
+      <!-- Data Solutions -->
+      <div class="service-card">
+        <div class="service-img-wrap">
+          <img src="assets/data_mang.png" alt="Data Solutions">
+          <div class="service-badge">Data</div>
+        </div>
+        <div class="service-body">
+          <div class="service-icon">🗄️</div>
+          <h3>Data Solutions</h3>
+          <p class="short">Stop managing your business with spreadsheets and WhatsApp. We build custom tools that make tracking customers, orders and products effortless.</p>
+          <ul class="service-features">
+            <li><span class="tick">▸</span> <span>Custom CRM — track leads, customers and follow-up history</span></li>
+            <li><span class="tick">▸</span> <span>Product & inventory management panel with easy upload interface</span></li>
+            <li><span class="tick">▸</span> <span>Order tracking and status update systems</span></li>
+            <li><span class="tick">▸</span> <span>Internal dashboards — sales reports, stock levels, daily summaries</span></li>
+            <li><span class="tick">▸</span> <span>Staff / team management tools for growing businesses</span></li>
+            <li><span class="tick">▸</span> <span>Automated notifications and reminders (email / WhatsApp)</span></li>
+            <li><span class="tick">▸</span> <span>Secure cloud storage — access your data from anywhere</span></li>
+          </ul>
+          <div class="service-footer">
+            <span class="price-tag">For businesses ready to scale</span>
+            <a href="#contact" class="service-link">Get a Quote →</a>
+          </div>
+        </div>
+      </div>
 
-<div class="service-card">
-<img src="assets/web_design.png">
+      <!-- Performance Marketing -->
+      <div class="service-card">
+        <div class="service-img-wrap">
+          <img src="assets/marketing.png" alt="Performance Marketing">
+          <div class="service-badge">Marketing</div>
+        </div>
+        <div class="service-body">
+          <div class="service-icon">📈</div>
+          <h3>Performance Marketing</h3>
+          <p class="short">Get discovered by real customers searching for your services. We set up and manage your entire online presence so you get more calls, more walk-ins, more sales.</p>
+          <ul class="service-features">
+            <li><span class="tick">▸</span> <span>Google Business Profile setup & optimization for local search</span></li>
+            <li><span class="tick">▸</span> <span>Instagram & Facebook business page setup with branded content</span></li>
+            <li><span class="tick">▸</span> <span>Google Ads & Meta Ads campaign creation and management</span></li>
+            <li><span class="tick">▸</span> <span>Product marketing pages designed to convert visitors into buyers</span></li>
+            <li><span class="tick">▸</span> <span>WhatsApp Business catalog and broadcast list setup</span></li>
+            <li><span class="tick">▸</span> <span>Online reputation management — review generation strategy</span></li>
+            <li><span class="tick">▸</span> <span>Monthly performance reports with insights and next steps</span></li>
+          </ul>
+          <div class="service-footer">
+            <span class="price-tag">Reach more customers daily</span>
+            <a href="#contact" class="service-link">Get a Quote →</a>
+          </div>
+        </div>
+      </div>
 
-<h3>Website Design</h3>
-
-<p class="short">
-Modern business websites that help customers understand and contact your business easily.
-</p>
-
-<div class="more">
-<ul>
-<li>Business information pages</li>
-<li>Product catalogs</li>
-<li>Contact & enquiry forms</li>
-<li>Mobile friendly design</li>
-<li>Google-ready structure</li>
-</ul>
-</div>
-
-</div>
-
-
-<div class="service-card">
-<img src="assets/data_mang.png">
-
-<h3>Data Solutions</h3>
-
-<p class="short">
-Custom systems to manage products, customers and internal business workflows.
-</p>
-
-<div class="more">
-<ul>
-<li>Custom CRM systems</li>
-<li>Product database management</li>
-<li>Upload panels to update products</li>
-<li>Customer management tools</li>
-<li>Internal dashboards</li>
-</ul>
-</div>
-
-</div>
-
-
-<div class="service-card">
-<img src="assets/marketing.png">
-
-<h3>Performance Marketing</h3>
-
-<p class="short">
-Take your business online and reach more customers using modern marketing platforms & Techniques.
-</p>
-
-<div class="more">
-<ul>
-<li>Google business optimization</li>
-<li>Instagram & Facebook presence</li>
-<li>Product marketing pages</li>
-<li>Online brand building</li>
-<li>Ad campaign setup</li>
-</ul>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
+    </div>
+  </div>
 </section>
 
+<!-- ── WHY US ── -->
+<section id="why" class="why-section">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-left">
+        <div class="big-number">01</div>
+        <h2>Built Specifically for Local Indian Businesses</h2>
+        <p>We understand the challenges local businesses face — limited budgets, no technical knowledge, and a need to compete with larger players. We remove every barrier and handle everything from start to finish.</p>
+        <a href="#contact" class="btn-primary">Talk to Us Today</a>
+      </div>
+      <div class="why-right">
+        <div class="why-pillars">
+          <div class="pillar">
+            <div class="pillar-icon">⚡</div>
+            <h4>Fast Delivery</h4>
+            <p>Your website live within 24–48 hours of approval. No waiting weeks.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">🎯</div>
+            <h4>Done-For-You</h4>
+            <p>You focus on your business. We handle everything technical.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">💬</div>
+            <h4>Always Available</h4>
+            <p>Direct WhatsApp support. No bots, no wait times.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">🔒</div>
+            <h4>Transparent Pricing</h4>
+            <p>What we quote is what you pay. Zero hidden charges.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">📱</div>
+            <h4>Mobile-First</h4>
+            <p>Over 90% of your customers browse on mobile. We build for them first.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">📊</div>
+            <h4>Results Focused</h4>
+            <p>We measure success by leads and customers, not just looks.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROCESS ── -->
 <section id="process" class="process-section">
-
-<div class="container">
-
-<h2>Our Digital Launch Process</h2>
-
-<div class="timeline">
-
-<div class="step left">
-<div class="circle">1</div>
-<div class="content">
-<h3>Understand Your Business</h3>
-<p>We learn about your services, customers, and goals so we can build the right digital solution.</p>
-</div>
-</div>
-
-<div class="step right">
-<div class="circle">2</div>
-<div class="content">
-<h3>Build Your Website</h3>
-<p>A modern website designed to present your services and attract customers.</p>
-</div>
-</div>
-
-<div class="step left">
-<div class="circle">3</div>
-<div class="content">
-<h3>Digital Marketing</h3>
-<p>We help your business appear on Google and social platforms.</p>
-</div>
-</div>
-
-<div class="step right">
-<div class="circle">4</div>
-<div class="content">
-<h3>Software Support</h3>
-<p>Custom tools to manage products, customers, and operations.</p>
-</div>
-</div>
-
-</div>
-
-</div>
-
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">How It Works</div>
+      <h2>Our Digital Launch Process</h2>
+      <p>A clear, simple 5-step journey from first conversation to fully live business online.</p>
+    </div>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="step-num">1</div>
+        <div class="step-icon">🤝</div>
+        <h3>Discovery Call</h3>
+        <p>We learn about your business, customers, goals and what digital presence you need — completely free, no commitment.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">2</div>
+        <div class="step-icon">🎨</div>
+        <h3>Design & Build</h3>
+        <p>We design and develop your website, tools and marketing pages — sharing previews for your feedback at every stage.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">3</div>
+        <div class="step-icon">🚀</div>
+        <h3>Launch & Go Live</h3>
+        <p>Your website goes live with your domain, hosting and all integrations fully set up and tested.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">4</div>
+        <div class="step-icon">📣</div>
+        <h3>Marketing Setup</h3>
+        <p>We set up your Google, Instagram and Facebook presence and launch your first campaigns to drive real customers.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">5</div>
+        <div class="step-icon">🛠️</div>
+        <h3>Ongoing Support</h3>
+        <p>Updates, changes, new pages — we're here whenever you need us. Think of us as your in-house digital team.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- ── PACKAGES ── -->
+<section id="packages" class="packages-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Pricing</div>
+      <h2>Simple Packages. Real Results.</h2>
+      <p>Start with what you need today and expand as your business grows. Every package is fully custom-built.</p>
+    </div>
+    <div class="packages-grid">
+
+      <div class="pkg-card">
+        <div class="pkg-icon">🌱</div>
+        <h3>Starter</h3>
+        <p class="pkg-desc">Perfect for businesses just getting online for the first time. Get a professional web presence fast.</p>
+        <ul class="pkg-list">
+          <li><span class="tick">✓</span> Single-page business website</li>
+          <li><span class="tick">✓</span> Mobile responsive design</li>
+          <li><span class="tick">✓</span> Contact form & WhatsApp button</li>
+          <li><span class="tick">✓</span> Google Maps embed</li>
+          <li><span class="tick">✓</span> Basic SEO setup</li>
+          <li><span class="tick">✓</span> Delivered in 24–48 hours</li>
+        </ul>
+        <a href="#contact" class="pkg-cta">Get Started</a>
+      </div>
+
+      <div class="pkg-card featured">
+        <div class="pkg-badge">Most Popular</div>
+        <div class="pkg-icon">🚀</div>
+        <h3>Growth</h3>
+        <p class="pkg-desc">The full digital package — website, marketing setup, and Google visibility for serious business growth.</p>
+        <ul class="pkg-list">
+          <li><span class="tick">✓</span> Multi-page business website</li>
+          <li><span class="tick">✓</span> Product / service catalog pages</li>
+          <li><span class="tick">✓</span> Google Business Profile setup</li>
+          <li><span class="tick">✓</span> Instagram & Facebook setup</li>
+          <li><span class="tick">✓</span> WhatsApp Business catalog</li>
+          <li><span class="tick">✓</span> Monthly performance report</li>
+          <li><span class="tick">✓</span> 30 days post-launch support</li>
+        </ul>
+        <a href="#contact" class="pkg-cta">Get Started</a>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-icon">⚙️</div>
+        <h3>Enterprise</h3>
+        <p class="pkg-desc">For businesses ready to automate — custom software, dashboards and ad campaigns all in one.</p>
+        <ul class="pkg-list">
+          <li><span class="tick">✓</span> Everything in Growth</li>
+          <li><span class="tick">✓</span> Custom CRM / management tool</li>
+          <li><span class="tick">✓</span> Product upload & admin panel</li>
+          <li><span class="tick">✓</span> Google & Meta Ads campaigns</li>
+          <li><span class="tick">✓</span> Internal business dashboard</li>
+          <li><span class="tick">✓</span> Automated notifications</li>
+          <li><span class="tick">✓</span> Dedicated ongoing support</li>
+        </ul>
+        <a href="#contact" class="pkg-cta">Get Started</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq" class="faq-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">FAQ</div>
+      <h2>Questions We Get a Lot</h2>
+      <p>Everything you need to know before getting started. Still unsure? WhatsApp us anytime.</p>
+    </div>
+    <div class="faq-wrap">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          How quickly will my website be ready?
+          <div class="faq-arrow">▾</div>
+        </button>
+        <div class="faq-a">For Starter packages, your website is typically live within 24–48 hours after we receive your content and approval. Larger multi-page websites and custom tools take 3–7 days depending on scope. We'll give you a clear timeline upfront before any work begins.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          Do I need to know anything technical?
+          <div class="faq-arrow">▾</div>
+        </button>
+        <div class="faq-a">Absolutely not. We handle every technical aspect — domain, hosting, design, development, and setup. All you need to provide is information about your business and any photos or content you'd like included. We guide you through every step.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          Can I update the website myself after it's built?
+          <div class="faq-arrow">▾</div>
+        </button>
+        <div class="faq-a">Yes — for businesses that need frequent product updates, we build an easy admin panel so you can update products, prices and content yourself without needing to contact us. For smaller changes, just WhatsApp us and we'll handle it quickly.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          Will my business appear on Google after the website is live?
+          <div class="faq-arrow">▾</div>
+        </button>
+        <div class="faq-a">Your website will be structured and optimized for Google from day one. For local search visibility, we also set up and optimize your Google Business Profile — which is often the fastest way for customers nearby to find you. Full Google Ads campaigns are available in our Growth and Enterprise packages.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          What kind of businesses do you work with?
+          <div class="faq-arrow">▾</div>
+        </button>
+        <div class="faq-a">We work with all types of local businesses — retail shops, restaurants, salons, medical clinics, wholesalers, service providers, manufacturers, educational institutes and more. If you run a business and want to grow online, we can help.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          Is there a monthly fee or maintenance cost?
+          <div class="faq-arrow">▾</div>
+        </button>
+        <div class="faq-a">Standard hosting and domain renewal costs apply annually (we help you set these up at the best rates). For businesses that want ongoing content updates, marketing management and support, we offer affordable monthly retainer plans. All costs are discussed and agreed upon before we begin.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA / CONTACT ── -->
 <section id="contact" class="cta-section">
-
-<div class="container cta-inner">
-<div class="cta-particles">
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-</div>
-<h2>Upload Your Business Online Today</h2>
-
-<p class="cta-sub">
-Professional websites, marketing, and digital tools — built for your business.
-</p>
-
-<div class="cta-benefits">
-
-<div class="benefit">
-⚡ Website ready in 24–48 hours
-</div>
-
-<div class="benefit">
-📈 Get discovered by new customers online
-</div>
-
-<div class="benefit">
-🛠 Tools to manage your business easily
-</div>
-
-</div>
-
-<a class="cta-button" href="mailto:uploadsolutionss@gmail.com">
-Start Your Growth Journey
-</a>
-
-<div class="cta-contact">
-
-<p>📧 uploadsolutionss@gmail.com</p>
-<p>📞 9991204428</p>
-
-</div>
-
-</div>
-
+  <div class="cta-particles">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="cta-inner">
+    <h2>Ready to Upload Your Business?</h2>
+    <p class="cta-sub">Get a professional website, real online visibility, and the digital tools to manage your business — all in one place.</p>
+    <div class="cta-benefits">
+      <div class="benefit">⚡ Website live in 24–48 hours</div>
+      <div class="benefit">📈 Reach new customers online</div>
+      <div class="benefit">🛠 Tools to manage your business</div>
+      <div class="benefit">💬 WhatsApp support always available</div>
+    </div>
+    <div class="cta-buttons">
+      <a class="cta-button" href="mailto:uploadsolutionss@gmail.com">Start Your Growth Journey →</a>
+      <a class="cta-secondary" href="tel:9991204428">📞 Call Us Now</a>
+    </div>
+    <div class="cta-contact">
+      <p>📧 uploadsolutionss@gmail.com</p>
+      <p>📞 9991204428</p>
+    </div>
+  </div>
 </section>
 
-
+<!-- ── FOOTER ── -->
 <footer>
-
-<p>© 2026 Upload</p>
-
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-text">Upload<span>Digital Solutions</span></div>
+      <p>We help local businesses establish a powerful digital presence — from beautiful websites to marketing and custom software tools.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <a href="#services">Website Design</a>
+      <a href="#services">Data Solutions</a>
+      <a href="#services">Performance Marketing</a>
+      <a href="#packages">Pricing Packages</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>📧 uploadsolutionss@gmail.com</p>
+      <p>📞 9991204428</p>
+      <a href="#process">Our Process</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Upload Digital Solutions. All rights reserved.</span>
+    <span>Bahadurgarh, Haryana</span>
+  </div>
 </footer>
 
+<script>
+// Hamburger menu
+const ham = document.getElementById('ham');
+const mobileMenu = document.getElementById('mobileMenu');
+ham.addEventListener('click', () => {
+  ham.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+function closeMenu(){
+  ham.classList.remove('open');
+  mobileMenu.classList.remove('open');
+}
+
+// FAQ accordion
+function toggleFAQ(btn) {
+  const item = btn.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// Scroll-reveal: add .visible class when sections enter view
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.style.opacity = 1; });
+}, { threshold: 0.1 });
+document.querySelectorAll('.service-card, .pillar, .process-step, .pkg-card, .faq-item').forEach(el => {
+  el.style.opacity = 0;
+  el.style.transition = 'opacity .6s ease, transform .6s ease';
+  observer.observe(el);
+});
+</script>
 </body>
 </html>
